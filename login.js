@@ -1,6 +1,3 @@
-以下是根据提供的新网站代码生成的更新后的完整代码：
-
-```javascript
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 
