@@ -1,3 +1,6 @@
+以下是根据提供的新网站代码生成的更新后的完整代码：
+
+```javascript
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 
@@ -13,24 +16,22 @@ const puppeteer = require('puppeteer');
     const page = await browser.newPage();
 
     try {
-      await page.goto('https://nic.eu.org/arf/en/');
+      // 修改网址为新的登录页面
+      await page.goto('https://panel0.serv00.com/login/?next=/');
 
-      // 等待页面加载完成
-      await page.waitForTimeout(10000); // 增加等待时间，等待页面加载完全
-
-      // 清空Handle输入框的原有值-FREE
-      const handleInput = await page.$('#id_handle');
-      if (handleInput) {
-        await handleInput.click({ clickCount: 3 }); // 选中输入框的内容
-        await handleInput.press('Backspace'); // 删除原有值
+      // 清空用户名输入框的原有值
+      const usernameInput = await page.$('#id_username');
+      if (usernameInput) {
+        await usernameInput.click({ clickCount: 3 }); // 选中输入框的内容
+        await usernameInput.press('Backspace'); // 删除原有值
       }
 
       // 输入实际的账号和密码
-      await page.type('#id_handle', username);
+      await page.type('#id_username', username);
       await page.type('#id_password', password);
 
       // 提交登录表单
-      const loginButton = await page.$('.action[type="submit"]');
+      const loginButton = await page.$('#submit');
       if (loginButton) {
         await loginButton.click();
       } else {
@@ -42,8 +43,8 @@ const puppeteer = require('puppeteer');
 
       // 判断是否登录成功
       const isLoggedIn = await page.evaluate(() => {
-        const loginButton = document.querySelector('.action[value="Login"]');
-        return loginButton === null;
+        const logoutButton = document.querySelector('a[href="/logout/"]');
+        return logoutButton !== null;
       });
 
       if (isLoggedIn) {
